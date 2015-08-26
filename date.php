@@ -1,39 +1,30 @@
 <?php
 
-class DateField extends InputField
-{
+class DateField extends InputField {
+
+    public $override = false;
+
     public function __construct()
     {
-        $this->icon = 'calendar-o';
+        $this->type   = 'date';
+        $this->icon   = 'calendar';
+        $this->label  = l::get('fields.date.label', 'Date');
+        $this->format = 'd-m-Y';
     }
 
-    public function value()
-    {
-        if (empty($this->value) || $this->value === 'now') {
-            return date('Y-m-d', strtotime('now'));
+    public function value() {
+        if ($this->override()) {
+            $this->value = $this->default();
         }
 
-        return $this->value;
-    }
-
-    public function input()
-    {
-        $input = parent::input();
-
-        $input->attr('maxlength', 10);
-
-        return $input;
-    }
-
-    public function validate()
-    {
-        if ( (bool) preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $this->value())) {
-            list($year, $month, $day) = explode('-', $this->value());
-
-            return checkdate($month, $day, $year);
+        if (empty($this->value)) {
+            return date($this->format, time());
         }
-        
-        return false;
+
+        return date($this->format, strtotime($this->value));
     }
 
+    public function validate() {
+        return v::date($this->result());
+    }
 }
