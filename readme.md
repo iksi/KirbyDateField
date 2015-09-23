@@ -19,4 +19,4 @@ date:
   default: now
 ```
 
-Unlike the default date field it uses date formatting like php’s [date function](http://php.net/manual/en/function.date.php)
+Unlike the default date field it uses date formatting like php’s [date function](http://php.net/manual/en/function.date.php).
