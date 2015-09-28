@@ -5,7 +5,7 @@ Custom time form field for kirby that doesn’t use a datepicker.
 ## Installation
 
 `git submodule add https://github.com/iksi/KirbyDateField.git site/fields/date`  
-Or place a `data` folder in `/site/fields` with the repository’s contents.
+Or place a `date` folder in `/site/fields` with the repository’s contents.
 
 ## Usage
 
