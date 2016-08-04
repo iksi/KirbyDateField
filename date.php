@@ -2,29 +2,34 @@
 
 class DateField extends InputField {
 
-    public $override = false;
+  public $override = false;
 
-    public function __construct()
-    {
-        $this->type   = 'date';
-        $this->icon   = 'calendar';
-        $this->label  = l::get('fields.date.label', 'Date');
-        $this->format = 'd-m-Y';
+  public function __construct() {
+    $this->icon = 'calendar-o';
+    $this->label = l::get('fields.date.label', 'Date');
+    $this->format = 'Y-m-d';
+  }
+
+  public function value() {
+    $value = $this->override()
+      ? $this->default() 
+      : parent::value();
+
+    if ($value === 'now') {
+      return date($this->format(), time());
     }
 
-    public function value() {
-        if ($this->override()) {
-            $this->value = $this->default();
-        }
-
-        if (empty($this->value)) {
-            return date($this->format, time());
-        }
-
-        return date($this->format, strtotime($this->value));
+    if (empty($value) || strtotime($value) === false) {
+      return $value;
     }
+
+    return date($this->format, strtotime($value));
+  }
 
     public function validate() {
-        return v::date($this->result());
+      $value = $this->value();
+
+      return date($this->format, strtotime($value)) === $value;
     }
+
 }
